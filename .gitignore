@@ -1,6 +1,7 @@
 node_modules/
 .env
 .claude/
+Pamukkale Branda OMS/
 *.log
 .DS_Store
 dist/
