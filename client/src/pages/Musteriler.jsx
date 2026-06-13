@@ -5,6 +5,7 @@ import api from '../api/client'
 export default function Musteriler() {
   const navigate = useNavigate()
   const [musteriler, setMusteriler] = useState([])
+  const [arama, setArama] = useState('')
   const [yukleniyor, setYukleniyor] = useState(true)
   const [hata, setHata] = useState(null)
 
@@ -15,15 +16,34 @@ export default function Musteriler() {
       .finally(() => setYukleniyor(false))
   }, [])
 
+  const filtreli = musteriler.filter((m) => {
+    const q = arama.toLowerCase()
+    return (
+      (m.ad_soyad  || '').toLowerCase().includes(q) ||
+      (m.telefon   || '').toLowerCase().includes(q) ||
+      (m.adres     || '').toLowerCase().includes(q)
+    )
+  })
+
   if (yukleniyor) return <p className="text-gray-500 mt-8 text-center">Yükleniyor...</p>
-  if (hata) return <p className="text-red-600 mt-8 text-center">{hata}</p>
+  if (hata)       return <p className="text-red-600 mt-8 text-center">{hata}</p>
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-gray-700 mb-5">Müşteriler</h1>
+      <h1 className="text-xl font-semibold text-gray-700 mb-4">Müşteriler</h1>
 
-      {musteriler.length === 0 ? (
-        <p className="text-gray-400 text-center mt-12">Henüz müşteri kaydı yok.</p>
+      <input
+        type="text"
+        value={arama}
+        onChange={(e) => setArama(e.target.value)}
+        placeholder="Müşteri adı, telefon veya adres ara..."
+        className="border rounded-lg px-4 py-2 w-full mb-4 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      />
+
+      {filtreli.length === 0 ? (
+        <p className="text-gray-400 text-center mt-12">
+          {arama ? 'Arama sonucu bulunamadı.' : 'Henüz müşteri kaydı yok.'}
+        </p>
       ) : (
         <div className="overflow-x-auto rounded-xl shadow-sm">
           <table className="w-full text-sm bg-white">
@@ -38,11 +58,8 @@ export default function Musteriler() {
               </tr>
             </thead>
             <tbody>
-              {musteriler.map((m, i) => (
-                <tr
-                  key={m.id}
-                  className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-                >
+              {filtreli.map((m, i) => (
+                <tr key={m.id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-4 py-3">
                     <button
                       onClick={() => navigate(`/musteriler/${m.id}`)}

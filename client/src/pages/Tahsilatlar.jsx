@@ -52,6 +52,7 @@ const odemeEtiket = {
 
 export default function Tahsilatlar() {
   const [alacaklar, setAlacaklar] = useState([])
+  const [arama, setArama] = useState('')
   const [yukleniyor, setYukleniyor] = useState(true)
   const [hata, setHata] = useState(null)
 
@@ -76,18 +77,39 @@ export default function Tahsilatlar() {
       .finally(() => setYukleniyor(false))
   }, [])
 
+  const filtrele = (m) => {
+    const q = arama.toLowerCase()
+    return (
+      (m.fis_no        || '').toLowerCase().includes(q) ||
+      (m.musteri_adi   || '').toLowerCase().includes(q) ||
+      (m.odeme_durumu  || '').toLowerCase().includes(q)
+    )
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-xl font-semibold text-gray-700 mb-5">Alacaklar</h1>
+      <h1 className="text-xl font-semibold text-gray-700 mb-4">Alacaklar</h1>
 
       {yukleniyor && <p className="text-gray-500 text-center mt-8">Yükleniyor...</p>}
       {hata && <p className="text-red-600 text-center mt-8">{hata}</p>}
 
-      {!yukleniyor && !hata && alacaklar.length === 0 && (
-        <p className="text-gray-400 text-center mt-12">Açık alacak bulunmuyor.</p>
+      {!yukleniyor && !hata && (
+        <input
+          type="text"
+          value={arama}
+          onChange={(e) => setArama(e.target.value)}
+          placeholder="Fiş no, müşteri veya ödeme durumu ara..."
+          className="border rounded-lg px-4 py-2 w-full mb-4 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        />
       )}
 
-      {!yukleniyor && !hata && alacaklar.length > 0 && (
+      {!yukleniyor && !hata && alacaklar.filter(filtrele).length === 0 && (
+        <p className="text-gray-400 text-center mt-12">
+          {arama ? 'Arama sonucu bulunamadı.' : 'Açık alacak bulunmuyor.'}
+        </p>
+      )}
+
+      {!yukleniyor && !hata && alacaklar.filter(filtrele).length > 0 && (
         <div className="mt-4 overflow-x-auto rounded-lg shadow bg-white">
           <table className="min-w-full text-sm">
             <thead>
@@ -103,7 +125,7 @@ export default function Tahsilatlar() {
               </tr>
             </thead>
             <tbody>
-              {alacaklar.map((m, i) => (
+              {alacaklar.filter(filtrele).map((m, i) => (
                 <tr key={m.id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-4 py-3 text-left">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${oncelikRenk[m._oncelik]}`}>
