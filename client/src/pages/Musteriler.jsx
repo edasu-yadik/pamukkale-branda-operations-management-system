@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 
 export default function Musteriler() {
+  const navigate = useNavigate()
   const [musteriler, setMusteriler] = useState([])
   const [yukleniyor, setYukleniyor] = useState(true)
   const [hata, setHata] = useState(null)
@@ -27,6 +29,7 @@ export default function Musteriler() {
           <table className="w-full text-sm bg-white">
             <thead>
               <tr className="bg-blue-700 text-white text-left">
+                <th className="px-4 py-3 font-medium"></th>
                 <th className="px-4 py-3 font-medium">ID</th>
                 <th className="px-4 py-3 font-medium">Ad Soyad</th>
                 <th className="px-4 py-3 font-medium">Telefon</th>
@@ -40,6 +43,14 @@ export default function Musteriler() {
                   key={m.id}
                   className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                 >
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => navigate(`/musteriler/${m.id}`)}
+                      className="text-xs text-blue-600 hover:underline whitespace-nowrap"
+                    >
+                      Detay
+                    </button>
+                  </td>
                   <td className="px-4 py-3 text-gray-400">{m.id}</td>
                   <td className="px-4 py-3 font-medium text-gray-800">{m.ad_soyad}</td>
                   <td className="px-4 py-3 text-gray-600">{m.telefon || '—'}</td>

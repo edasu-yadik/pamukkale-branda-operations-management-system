@@ -4,6 +4,7 @@ import AnaSayfa from './pages/AnaSayfa'
 import Musteriler from './pages/Musteriler'
 import Montajlar from './pages/Montajlar'
 import MontajDetay from './pages/MontajDetay'
+import MusteriDetay from './pages/MusteriDetay'
 import Tahsilatlar from './pages/Tahsilatlar'
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<AnaSayfa />} />
           <Route path="/musteriler" element={<Musteriler />} />
+          <Route path="/musteriler/:id" element={<MusteriDetay />} />
           <Route path="/montajlar" element={<Montajlar />} />
           <Route path="/montajlar/:id" element={<MontajDetay />} />
           <Route path="/tahsilatlar" element={<Tahsilatlar />} />
