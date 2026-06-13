@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import AnaSayfa from './pages/AnaSayfa'
 import Musteriler from './pages/Musteriler'
+import Montajlar from './pages/Montajlar'
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<AnaSayfa />} />
           <Route path="/musteriler" element={<Musteriler />} />
+          <Route path="/montajlar" element={<Montajlar />} />
         </Routes>
       </main>
     </BrowserRouter>
