@@ -29,7 +29,7 @@ async function tumMontajlar(req, res, next) {
         m.toplam_tutar,
         COALESCE(SUM(t.tutar), 0) AS odenen_tutar,
         m.toplam_tutar - COALESCE(SUM(t.tutar), 0) AS kalan_tutar,
-        m.montaj_durumu, m.odeme_durumu, m.aciklama,
+        m.montaj_durumu, m.odeme_durumu, m.aciklama, m.montaj_ekibi,
         m.olusturma_tarihi
       FROM montajlar m
       JOIN musteriler mu ON mu.id = m.musteri_id
@@ -71,7 +71,7 @@ async function montajGetir(req, res, next) {
 
 async function montajOlustur(req, res, next) {
   try {
-    const { musteri_id, fis_no, fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, aciklama } = req.body;
+    const { musteri_id, fis_no, fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, aciklama, montaj_ekibi } = req.body;
 
     const musteriKontrol = await pool.query('SELECT id FROM musteriler WHERE id = $1', [musteri_id]);
     if (!musteriKontrol.rows.length) {
@@ -80,8 +80,8 @@ async function montajOlustur(req, res, next) {
 
     const { rows } = await pool.query(
       `INSERT INTO montajlar
-        (musteri_id, fis_no, fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, aciklama)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        (musteri_id, fis_no, fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, aciklama, montaj_ekibi)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
       [
         musteri_id,
@@ -92,6 +92,7 @@ async function montajOlustur(req, res, next) {
         toplam_tutar,
         montaj_durumu || 'beklemede',
         aciklama || null,
+        montaj_ekibi || null,
       ]
     );
     res.status(201).json(rows[0]);
@@ -108,7 +109,7 @@ async function montajGuncelle(req, res, next) {
     }
 
     const m = mevcut.rows[0];
-    const { fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, odeme_durumu, aciklama } = req.body;
+    const { fatura_no, siparis_tarihi, montaj_tarihi, toplam_tutar, montaj_durumu, odeme_durumu, aciklama, montaj_ekibi } = req.body;
 
     const { rows } = await pool.query(
       `UPDATE montajlar SET
@@ -118,8 +119,9 @@ async function montajGuncelle(req, res, next) {
         toplam_tutar   = $4,
         montaj_durumu  = $5,
         odeme_durumu   = $6,
-        aciklama       = $7
-       WHERE id = $8 RETURNING *`,
+        aciklama       = $7,
+        montaj_ekibi   = $8
+       WHERE id = $9 RETURNING *`,
       [
         fatura_no      ?? m.fatura_no,
         siparis_tarihi ?? m.siparis_tarihi,
@@ -128,6 +130,7 @@ async function montajGuncelle(req, res, next) {
         montaj_durumu  ?? m.montaj_durumu,
         odeme_durumu   ?? m.odeme_durumu,
         aciklama       ?? m.aciklama,
+        montaj_ekibi   !== undefined ? montaj_ekibi : m.montaj_ekibi,
         req.params.id,
       ]
     );

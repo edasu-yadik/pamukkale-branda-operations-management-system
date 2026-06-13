@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS montajlar (
   siparis_tarihi    DATE NOT NULL DEFAULT CURRENT_DATE,
   montaj_tarihi     DATE,
   aciklama          TEXT,
+  montaj_ekibi      VARCHAR(200),
   toplam_tutar      NUMERIC(12, 2) NOT NULL DEFAULT 0,
   montaj_durumu     VARCHAR(20) NOT NULL DEFAULT 'beklemede'
                     CHECK (montaj_durumu IN ('beklemede', 'planlandi', 'tamamlandi', 'iptal')),
@@ -121,6 +122,7 @@ SELECT
   m.montaj_durumu,
   m.odeme_durumu,
   m.aciklama,
+  m.montaj_ekibi,
   m.olusturma_tarihi
 FROM montajlar m
 JOIN musteriler mu ON mu.id = m.musteri_id
