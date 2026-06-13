@@ -4,7 +4,7 @@ const links = [
   { to: '/', label: 'Ana Sayfa' },
   { to: '/musteriler', label: 'Müşteriler' },
   { to: '/montajlar', label: 'Montajlar' },
-  { to: '/tahsilatlar', label: 'Tahsilatlar' },
+  { to: '/tahsilatlar', label: 'Alacaklar' },
 ]
 
 export default function Navbar() {
