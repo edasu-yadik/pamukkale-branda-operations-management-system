@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import AnaSayfa from './pages/AnaSayfa'
 import Musteriler from './pages/Musteriler'
 import Montajlar from './pages/Montajlar'
+import MontajDetay from './pages/MontajDetay'
 import Tahsilatlar from './pages/Tahsilatlar'
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/" element={<AnaSayfa />} />
           <Route path="/musteriler" element={<Musteriler />} />
           <Route path="/montajlar" element={<Montajlar />} />
+          <Route path="/montajlar/:id" element={<MontajDetay />} />
           <Route path="/tahsilatlar" element={<Tahsilatlar />} />
         </Routes>
       </main>

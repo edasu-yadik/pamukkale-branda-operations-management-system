@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 
 function formatTL(sayi) {
@@ -46,6 +47,7 @@ const odemeEtiket = {
 }
 
 export default function Montajlar() {
+  const navigate = useNavigate()
   const [montajlar, setMontajlar] = useState([])
   const [yukleniyor, setYukleniyor] = useState(true)
   const [hata, setHata] = useState(null)
@@ -73,6 +75,7 @@ export default function Montajlar() {
           <table className="min-w-full text-sm">
             <thead>
               <tr className="bg-blue-700 text-white">
+                <th className="px-4 py-3 text-left font-medium"></th>
                 <th className="px-4 py-3 text-left font-medium">ID</th>
                 <th className="px-4 py-3 text-left font-medium">Fiş No</th>
                 <th className="px-4 py-3 text-left font-medium">Fatura No</th>
@@ -89,6 +92,14 @@ export default function Montajlar() {
             <tbody>
               {montajlar.map((m, i) => (
                 <tr key={m.id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  <td className="px-4 py-3 text-left">
+                    <button
+                      onClick={() => navigate(`/montajlar/${m.id}`)}
+                      className="text-xs text-blue-600 hover:underline whitespace-nowrap"
+                    >
+                      Detay
+                    </button>
+                  </td>
                   <td className="px-4 py-3 text-left text-gray-400">{m.id}</td>
                   <td className="px-4 py-3 text-left text-gray-700">{m.fis_no || '—'}</td>
                   <td className="px-4 py-3 text-left text-gray-700">{m.fatura_no || '—'}</td>
