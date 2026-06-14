@@ -87,6 +87,7 @@ export default function MontajDetay() {
           <BilgiSatiri etiket="Müşteri"         deger={montaj.musteri_adi || '—'} />
           <BilgiSatiri etiket="Sipariş Tarihi"  deger={formatTarih(montaj.siparis_tarihi)} />
           <BilgiSatiri etiket="Montaj Tarihi"   deger={formatTarih(montaj.montaj_tarihi)} />
+          <BilgiSatiri etiket="Montaj Ekibi"   deger={montaj.montaj_ekibi || '—'} />
           <BilgiSatiri etiket="Toplam Tutar"    deger={formatTL(montaj.toplam_tutar)} />
           <BilgiSatiri etiket="Ödenen Tutar"    deger={formatTL(montaj.odenen_tutar)} />
           <BilgiSatiri etiket="Kalan Tutar"     deger={formatTL(montaj.kalan_tutar)} />

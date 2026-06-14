@@ -115,7 +115,8 @@ export default function Montajlar() {
       (m.fatura_no       || '').toLowerCase().includes(q) ||
       (m.musteri_adi     || '').toLowerCase().includes(q) ||
       (m.montaj_durumu   || '').toLowerCase().includes(q) ||
-      (m.odeme_durumu    || '').toLowerCase().includes(q)
+      (m.odeme_durumu    || '').toLowerCase().includes(q) ||
+      (m.montaj_ekibi    || '').toLowerCase().includes(q)
     )
   })
 
@@ -156,6 +157,7 @@ export default function Montajlar() {
                     <th className="px-4 py-3 text-left font-medium">Toplam</th>
                     <th className="px-4 py-3 text-left font-medium">Ödenen</th>
                     <th className="px-4 py-3 text-left font-medium">Kalan</th>
+                    <th className="px-4 py-3 text-left font-medium">Montaj Ekibi</th>
                     <th className="px-4 py-3 text-left font-medium">Montaj Durumu</th>
                     <th className="px-4 py-3 text-left font-medium">Ödeme Durumu</th>
                   </tr>
@@ -185,6 +187,7 @@ export default function Montajlar() {
                       <td className="px-4 py-3 text-left text-gray-800 font-medium">{formatTL(m.toplam_tutar)}</td>
                       <td className="px-4 py-3 text-left text-green-700">{formatTL(m.odenen_tutar)}</td>
                       <td className="px-4 py-3 text-left text-red-600">{formatTL(m.kalan_tutar)}</td>
+                      <td className="px-4 py-3 text-left text-gray-600">{m.montaj_ekibi || '—'}</td>
                       <td className="px-4 py-3 text-left">
                         <Rozet deger={m.montaj_durumu} renkMap={montajDurumRenk} etiketMap={montajEtiket} />
                       </td>

@@ -93,6 +93,7 @@ export default function MusteriDetay() {
                     <th className="px-4 py-3 text-left font-medium">Toplam</th>
                     <th className="px-4 py-3 text-left font-medium">Ödenen</th>
                     <th className="px-4 py-3 text-left font-medium">Kalan</th>
+                    <th className="px-4 py-3 text-left font-medium">Montaj Ekibi</th>
                     <th className="px-4 py-3 text-left font-medium">Ödeme Durumu</th>
                   </tr>
                 </thead>
@@ -109,6 +110,7 @@ export default function MusteriDetay() {
                       <td className="px-4 py-3 text-left text-gray-800 font-medium">{formatTL(m.toplam_tutar)}</td>
                       <td className="px-4 py-3 text-left text-green-700">{formatTL(m.odenen_tutar)}</td>
                       <td className="px-4 py-3 text-left text-red-600">{formatTL(m.kalan_tutar)}</td>
+                      <td className="px-4 py-3 text-left text-gray-600">{m.montaj_ekibi || '—'}</td>
                       <td className="px-4 py-3 text-left">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${odemeDurumRenk[m.odeme_durumu] || 'bg-gray-100 text-gray-600'}`}>
                           {odemeEtiket[m.odeme_durumu] || m.odeme_durumu || '—'}
